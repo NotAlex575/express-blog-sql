@@ -31,3 +31,39 @@ Verifichiamo su Postman che la risposta sia corretta,
 Bonus:
 
 Far sì che la SHOW restituisca il post comprensivo di tag, recuperandoli grazie alla relazione tra post e tags, esistente sul database
+
+
+
+______________________________________________________________________________
+
+
+passaggi (ho già importato un esercizio precedente come scheletro, ovvero express-blog-api-crud):
+
+0) importo il contenuto di express-blog-api-crud
+1) importiamo mysql2 attraverso il comando da mettere nel terminal npm i mysql2
+2) nella cartella data inseriamo il js per collegarci al database (in questo esercizio si chiama databasePosts)
+3) inseriamo il seguente:
+
+//importo mysql2
+const mysql = require("mysql2");
+// creo la connessione al database
+const connessione = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "db_blog"
+})
+//instauro una connessione al database
+connessione.connect((err) =>{
+    if(err){
+        console.log(err)
+    }
+    else{
+        console.log("connesso con mysql!")
+    }
+})
+//esportiamo la connessione creata
+module.exports = connessione;
+
+solitamente l'import del database deve essere sempre scritto così (cambia solo ad alcune eccezioni, ma di questo al momento non ci pensiamo)
+
