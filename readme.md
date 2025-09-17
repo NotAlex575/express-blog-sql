@@ -85,4 +85,57 @@ PASSAGGI (ho già importato un esercizio precedente come scheletro, ovvero expre
     - Server in ascolto sulla porta 3000
     - connesso con mysql!
 
+5) sempre in postsController andiamo ad eseguire delle modifiche:
+
+    INDEX
+
+    1) in const index cancelliamo tutto il suo contenuto (ora non è più necessario siccome prenderemo tutto attraverso le query del database) 
+
+    2) in const index (oramai vuoto di contenuto) inseriamo la definizione della query da eseguire con:
+
+    const sql = "SELECT * FROM posts";
+
+    3) controlliamo se la query inserita è stata eseguita con successo usando questo comando:
+
+    posts.query(sql, (err, results) =>{
+        if(err) 
+            return res.status(500).json({error: "Errore durante la esecuzione della query: "+err});
+        res.json(results);
+    })
+
+    4) ora su postman testiamo il risultato, utilizzando i tool esistenti già precedentemente in routers/posts.js (ci sono dei commenti di riferimento che mostrano come essere eseguiti su postman)
+    
+    se tutto va bene, inserendo http://localhost:3000/posts nel GET, ci ritroviamo su postman la lista dei posts!
+
+
+    DESTROY
+
+    1) in const destroy cancelliamo tutto il suo contenuto (ora non è più necessario siccome prenderemo tutto attraverso le query del database), e come prima cosa inseriamo il parametro:
+
+    const { id } = req.params;
+
+    questo parametro verra passato attraverso l'indirizzo che metteremo su postman
+
+    2) instauriamo la connessione ed eseguiamo la query:
+
+    const sql = "DELETE FROM posts WHERE id = ?";
+
+    3) controlliamo se la query inserita è stata eseguita con successo usando questo comando:
+
+    posts.query(sql, [id], (err) => {
+        if(err)
+            return res.status(500).json({ error: "errore nell'esecuzione della query: "+err});
+        res.sendStatus(204);
+    })
+
+    4) ora su postman testiamo il risultato, utilizzando i tool esistenti già precedentemente in routers/posts.js (ci sono dei commenti di riferimento che mostrano come essere eseguiti su postman)
+    
+    se tutto va bene, inserendo ad esempio http://localhost:3000/posts/1 nel DELETE, se troviamo come risultato su postman 204 on content, allora la richiesta è avvenuta con successo!
+
+
+
+
+
+
+
 
