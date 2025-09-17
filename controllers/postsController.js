@@ -1,25 +1,19 @@
+//richiamiamo il collegamento col database per poi dopo eseguire le query
 const posts = require("../data/databasePosts.js");
+//IN routers/posts.js TROVI TUTTI I MODI DI ESEGUIRE QUESTI CONTROLLERS
 
 //index
 
 const index = (req, res) => {
-    //EXTRA: FILTER
+    //definizione della query da eseguire
+    const sql = "SELECT * FROM posts";
 
-    //esempio test middleware errorsHandler (per testare cancellare il commento sotto)
-    //Pippo.length();
-
-    
-    //recupero il parametro inserito all'interno di postman (in questo caso recupero un nome inserito)
-    const namePost = req.query.name;
-
-    //Creiamo una variabile che inizialmente conterrà tutti i post presenti nell’array.
-    let filteredPosts = posts;
-
-    //vediamo se si trova il name nell'array di oggetti posts
-    if(namePost){
-        filteredPosts = posts.filter(post => post.name.toLocaleLowerCase().includes(namePost.toLocaleLowerCase()));
-    }
-    res.json(filteredPosts);
+    //controlliamo se la query inserita è stata eseguita con successo
+    posts.query(sql, (err, results) =>{
+        if(err) 
+            return res.status(500).json({error: "Errore durante la esecuzione della query: "+err});
+        res.json(results);
+    })
 }
 
 //show
